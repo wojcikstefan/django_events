@@ -1,0 +1,111 @@
+{%extends 'events/base.html'%}
+{%load i18n%}
+
+{%block extra_header%}
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/home.css"/>
+{%endblock%}
+
+{%block top_slider%}
+    <section id="hero">
+        <div id="hero_promo">
+            <article>
+                <h2>
+                    If it's happening out there you'll find it here.
+                </h2>
+                <h3>
+                    Browse 1000's of events. Or create your own events and sell tickets right here.
+                </h3>
+                <p class="calltoaction">
+                    <a href="http://www.eventbrite.com/create/" class="action_button action_button_go">
+                        Create an Event
+                    </a>
+                    <span>
+                        (It's free.)
+                    </span>
+                </p>
+            </article>
+        </div>
+
+        <div id="carousel_feat_events">
+            <ul class="carousel_container">
+                <li>
+                    <div class="figure">
+                        <a href="#">
+                            <img src="http://ebmedia.eventbrite.com/s3-build/admin/marketing/v2/featuredevents/redhookcrit_US_mar.jpg" />
+                        </a>
+                        <div class="figcaption">
+                            <strong>
+                                EVENT NAME
+                            </strong>
+                            <span>
+                                EVENT PLACE | 
+                                EVENT DATE
+                            </span>
+                            |
+                            <a href="#">
+                                View event
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <a href="#" class="prev">
+                &laquo;
+            </a>
+            <a href="#" class="next">
+                &raquo;
+            </a>
+        </div>
+    </section>
+{%endblock%}
+
+{%block content%}
+    <div id="event_discovery_listing">
+        <!--<hgroup id="chosen_location" class="clrfix">
+            <h3>
+                Discover events in Warsaw
+            </h3>
+            <a href="/search/">
+                Change your location
+            </a>
+        </hgroup>-->
+
+        <form id="home_search" action="/search/" method="get">
+            <input type="hidden" name="loc" value="Warsaw, Poland" />
+            <input type="hidden" name="q" value="" class="authentic" />
+
+            <input type="text" id="city_search" name="" autocomplete="off" placeholder="{%trans "Search for concerts, conferences, and more"%}" class="default_value" />
+            <input type="submit" id="search_button" value="{%trans "Search"%}" class="action_button action_button_go" />
+        </form>
+
+        <table>
+            <tr class="event_listing">
+                <td class="date">
+                    <strong>WEEKDAY</strong>
+                    DATE
+                </td>
+                <td class="event_info">
+                    <h4>
+                        <a href="#">EVENT NAME</a>
+                    </h4>
+                    <div class="channel">EVENT CATEGORY</div>
+                    <table>
+                        <tbody class="when_where">
+                            <tr>
+                                <th>{%trans "When"%}:</th>
+                                <td>EVENT DATE</td>
+                            </tr>
+                            <tr>
+                                <th>{%trans "Where"%}:</th>
+                                <td>EVENT ADDRESS</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <a href="#" style="margin-left:0px;">{%trans "View more events in"%} Warsaw</a>
+    </div>
+{%endblock%}
+
+{%block right%}{%endblock%}

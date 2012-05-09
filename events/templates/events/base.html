@@ -1,0 +1,80 @@
+{%load i18n%}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Language" content="en"/>
+    <link rel="shortcut icon" href="http://ebmedia.eventbrite.com/s3-build/perm_001/b955ae/django/images/icons/favicon.ico"/>
+    <meta name="keywords" content="events, online registration, sell tickets, event management, credit cards, online payments"/>
+    <meta name="robots" content="index, follow" />
+    <meta name="description" content="Django Events gives you all the online tools you need to bring people together for an event and sell tickets."/>
+    <link rel="image_src" href="https://ebmedia.eventbrite.com/s3-s3/static/images/django/logos/eb_home_tm-trans.png"/>
+    <title>Django Events - {%trans "Sell Tickets Online"%}</title>
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/fonts.css"/>
+    {%block extra_header%}{%endblock%}
+</head>
+<body>
+<div id="header">
+    <div id="header_content">
+        <a id="logo" href="{%url dj-ev-home%}">
+            <h1>Logo</h1>
+        </a>
+        <div id="ticket_counter">
+            <span class="strong">
+                {placeholder}
+            </span>
+            <span>{%trans "Tickets sold"%}</span>
+        </div>
+
+        <div id="lang-opts">
+            LANGUAGE
+        </div>
+
+        <div id="contact_help">
+            {%trans "Some small help & contact information"%}
+        </div>
+        
+        <ul id="header_nav">
+            <li><a href="/search/">{%trans "Find events"%}</a></li>
+            <li><a href="/gettickets/">{%trans "Print tickets"%}</a></li>
+            <li><a href="/create/">{%trans "Create an event"%}</a></li>
+            <li><a href="/features/">{%trans "How it works"%}</a></li>
+            <li><a href="/help/">{%trans "Help"%}</a></li>
+            <li>
+                <ul id="user_cta">
+                    <li id="login">
+                        <a href="/login/">{%trans "Log in"%}</a>
+                    </li>
+                    <li id="signup">
+                        <a href="/signup/">{%trans "Sign up"%}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="home_container">
+    {%block top_slider%}{%endblock%}
+
+    <section id="event_discovery" class="clrfix">
+        {%block content%}{%endblock%}
+
+        <aside id="event_discovery_thumbs">
+            {%block right%}{%endblock%}
+        </aside>
+    </section>
+
+    <section id="home_features" class="clrfix"></section>
+</div>
+
+<div id="footer">    
+    <div id="fine_print">
+        FOOTER
+    </div>
+</div>
+
+</body>
+</html>
