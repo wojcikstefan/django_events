@@ -1,16 +1,12 @@
 {%extends 'events/base.html'%}
 {%load i18n%}
 
-{%block extra_header%}
-    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/home.css"/>
-{%endblock%}
-
 {%block top_slider%}
     <section id="hero">
         <div id="hero_promo">
             <article>
                 <h2>
-                    If it's happening out there you'll find it here.
+                    Some advertising text
                 </h2>
                 <h3>
                     Browse 1000's of events. Or create your own events and sell tickets right here.
@@ -19,9 +15,6 @@
                     <a href="http://www.eventbrite.com/create/" class="action_button action_button_go">
                         Create an Event
                     </a>
-                    <span>
-                        (It's free.)
-                    </span>
                 </p>
             </article>
         </div>
@@ -31,7 +24,7 @@
                 <li>
                     <div class="figure">
                         <a href="#">
-                            <img src="http://ebmedia.eventbrite.com/s3-build/admin/marketing/v2/featuredevents/redhookcrit_US_mar.jpg" />
+                            <img src="{{STATIC_URL}}images/pages/home/slider_placeholder.png"/>
                         </a>
                         <div class="figcaption">
                             <strong>
@@ -49,12 +42,6 @@
                     </div>
                 </li>
             </ul>
-            <a href="#" class="prev">
-                &laquo;
-            </a>
-            <a href="#" class="next">
-                &raquo;
-            </a>
         </div>
     </section>
 {%endblock%}
@@ -79,32 +66,42 @@
         </form>
 
         <table>
-            <tr class="event_listing">
-                <td class="date">
-                    <strong>WEEKDAY</strong>
-                    DATE
-                </td>
-                <td class="event_info">
-                    <h4>
-                        <a href="#">EVENT NAME</a>
-                    </h4>
-                    <div class="channel">EVENT CATEGORY</div>
-                    <table>
-                        <tbody class="when_where">
-                            <tr>
-                                <th>{%trans "When"%}:</th>
-                                <td>EVENT DATE</td>
-                            </tr>
-                            <tr>
-                                <th>{%trans "Where"%}:</th>
-                                <td>EVENT ADDRESS</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            {%for event in events.object_list%}
+                <tr class="event_listing">
+                    <td class="date">
+                        <strong>{{event.date_start|date:'D'}}</strong>
+                        {{event.date_start|date:'M j'}}
+                    </td>
+                    <td class="event_info">
+                        <h4>
+                            <a href="#">{{event.name}}</a>
+                        </h4>
+                        <div class="channel">EVENT CATEGORY</div>
+                        <table>
+                            <tbody class="when_where">
+                                <tr>
+                                    <th>{%trans "When"%}:</th>
+                                    <td>{{event.date_start|date:'F j, Y g:i A'}}</td>
+                                </tr>
+                                <tr>
+                                    <th>{%trans "Where"%}:</th>
+                                    <td>{{event.location}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            {%empty%}
+            <tr>
+                <td class="event_listing_empty">
+                    {%trans "There are no events yet"%}
                 </td>
             </tr>
+            {%endfor%}
         </table>
-        <a href="#" style="margin-left:0px;">{%trans "View more events in"%} Warsaw</a>
+        {%if events.has_next%}
+            <a href="#" style="margin-left:0px;">{%trans "View more events in"%} Warsaw</a>
+        {%endif%}
     </div>
 {%endblock%}
 

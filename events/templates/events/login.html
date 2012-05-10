@@ -1,0 +1,17 @@
+{%extends 'events/base.html'%}
+{%load i18n%}
+
+{%block content%}
+    <div style="padding:30px;">
+        <form action="{%url login%}" method="POST">
+            {%csrf_token%}
+            {%for field in form%}
+                <div style="margin-top:10px;">
+                    {{field.label_tag}} {{field}}
+                    {%if field.errors%} <br/>{{field.errors}} {%endif%}
+                </div>
+            {%endfor%}
+            <input type="submit" value="{%trans "Sign in"%}"/>
+        </form>
+    </div>
+{%endblock%}
