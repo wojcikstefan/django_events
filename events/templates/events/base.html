@@ -5,11 +5,11 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="Content-Language" content="en"/>
-    <link rel="shortcut icon" href="http://ebmedia.eventbrite.com/s3-build/perm_001/b955ae/django/images/icons/favicon.ico"/>
+    <link rel="shortcut icon" href="{{STATIC_URL}}images/favicon.ico"/>
     <meta name="keywords" content="events, online registration, sell tickets, event management, credit cards, online payments"/>
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow"/>
     <meta name="description" content="Django Events gives you all the online tools you need to bring people together for an event and sell tickets."/>
-    <link rel="image_src" href="https://ebmedia.eventbrite.com/s3-s3/static/images/django/logos/eb_home_tm-trans.png"/>
+    <link rel="image_src" href="#"/>
     <title>Django Events - {%trans "Sell Tickets Online"%}</title>
     <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css"/>
     <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/fonts.css"/>
@@ -34,18 +34,18 @@
             {%if request.user.is_authenticated%}
                 <span style="margin-left:10px;">
                     {%trans "Signed in as"%}:
-                    {{request.user}}
+                    {{request.user.email}}
                 </span>
                 <a href="{%url logout%}">{%trans "Log out"%}</a>
             {%else%}
                 <a href="{%url login%}">{%trans "Log in"%}</a>
-                <a href="/signup/">{%trans "Sign up"%}</a>
+                <a href="{%url register%}">{%trans "Sign up"%}</a>
             {%endif%}
         </div>
         
         <ul id="header_nav">
             <li style="margin-bottom:7px;">
-                <a href="#">Create an event</a>
+                <a href="{%url create-event%}">{%trans "Create an event"%}</a>
             </li>
         </ul>
     </div>

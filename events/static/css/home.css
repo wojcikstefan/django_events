@@ -1054,3 +1054,13 @@ section > hgroup > h3,
     white-space: nowrap; 
     overflow:hidden; 
 }
+
+
+/*----------------------------  MY STUFF  -----------------------------------*/
+.auth-form {padding:30px;}
+.auth-form label {display: block;min-width:100px;float:left;}
+.auth-form input {width:200px;}
+.auth-form input[type="submit"] {margin-top:20px;width:100px;}
+.auth-form .error {color:red;margin:10px 0 0;}
+
+.event-detail {padding:20px;}

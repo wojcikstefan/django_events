@@ -1,0 +1,31 @@
+{%extends 'events/base.html'%}
+{%load i18n%}
+
+{%block content%}
+    <div class="auth-form">
+        {%if saved%}
+            <div class="success">
+                {%trans "You are successfully registered."%}
+                <a href="{%url home%}">
+                    {%trans "Click here to go back to the homepage"%}
+                </a>
+            </div>
+        {%else%}
+            <form action="{%url register%}" method="POST">
+                {%csrf_token%}
+                {%for field in form%}
+                    <div style="margin-top:10px;">
+                        {{field.label_tag}} {{field}}
+                        {%if field.errors%} <br/>{{field.errors}} {%endif%}
+                    </div>
+                {%endfor%}
+                {%if form.non_field_errors%}
+                    <div class="error">
+                        {{form.non_field_errors}}
+                    </div>
+                {%endif%}
+                <input type="submit" value="{%trans "Sign in"%}"/>
+            </form>
+        {%endif%}
+    </div>
+{%endblock%}

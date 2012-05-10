@@ -12,8 +12,8 @@
                     Browse 1000's of events. Or create your own events and sell tickets right here.
                 </h3>
                 <p class="calltoaction">
-                    <a href="http://www.eventbrite.com/create/" class="action_button action_button_go">
-                        Create an Event
+                    <a href="{%url create-event%}" class="action_button action_button_go">
+                        {%trans "Create an Event"%}
                     </a>
                 </p>
             </article>
@@ -48,15 +48,6 @@
 
 {%block content%}
     <div id="event_discovery_listing">
-        <!--<hgroup id="chosen_location" class="clrfix">
-            <h3>
-                Discover events in Warsaw
-            </h3>
-            <a href="/search/">
-                Change your location
-            </a>
-        </hgroup>-->
-
         <form id="home_search" action="/search/" method="get">
             <input type="hidden" name="loc" value="Warsaw, Poland" />
             <input type="hidden" name="q" value="" class="authentic" />
@@ -74,7 +65,7 @@
                     </td>
                     <td class="event_info">
                         <h4>
-                            <a href="#">{{event.name}}</a>
+                            <a href="{%url event event.id%}">{{event.name}}</a>
                         </h4>
                         <div class="channel">EVENT CATEGORY</div>
                         <table>
