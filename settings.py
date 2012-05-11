@@ -2,24 +2,26 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Stefan Wojcik', 'wojcikstefan@gmail.com'),
+    ('NAME SURNAME', 'email@address.com'),
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_events',
-        'USER': 'django_events',
-        'PASSWORD': 'secret_pass',
-        'HOST': '',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.mysql', # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'DB NAME',
+        'USER': 'DB USER',
+        'PASSWORD': 'DB PASS',
+        'HOST': '', # localhost by default 
+        'PORT': '', # 3306 by defalult
     }
 }
 
-# Stripe test keys
-STRIPE_PUBLIC_KEY = 'pk_klRyAO6DqsgBoboM8qOyeH1mPzl3U'
-STRIPE_PRIVATE_KEY = 'QUI20VjqU5h8mNcfUP0nQVUAs80nFAUZ'
+SECRET_KEY = 'YOUR SECRET KEY'
+
+# Stripe test keys (do not forget to switch them for the production keys later)
+STRIPE_PUBLIC_KEY = 'YOUR STRIPE PUBLIC KEY'
+STRIPE_PRIVATE_KEY = 'YOUR STRIPE PRIVATE KEY'
 
 from common_settings import *
