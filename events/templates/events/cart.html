@@ -1,0 +1,53 @@
+{%extends 'events/base.html'%}
+{%load i18n%}
+
+{%block content%}
+    <div class="event-detail">
+        <h1>{%trans "CART"%}</h1>
+        <h2 style="margin-top:20px;">{%trans "Order summary"%}</h2>
+        <table class="tickets">
+            <thead>
+                <tr>
+                    <th>{%trans "TICKET TYPE"%}</th>
+                    <th>{%trans "PRICE"%}</th>
+                    <th>{%trans "QUANTITY"%}</th>
+                    <th>{%trans "TOTAL"%}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for ticket_order in cart%}
+                    <tr>
+                        <td>
+                            {{ticket_order.ticket.name}}
+                            <p class="description">{{ticket_order.ticket.description}}</p>
+                        </td>
+                        <td>{{ticket_order.ticket.price|floatformat:2}}</td>
+                        <td>{{ticket_order.quantity}}</td>
+                        <td>{{ticket_order.total_price|floatformat:2}}</td>
+                    </tr>
+                {%endfor%}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" style="text-align:right;">
+                        {%trans "TOTAL AMOUNT DUE"%}:
+                    </td>
+                    <td><strong>{{cart.summary|floatformat:2}}</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+        <a href="{%url cart-clear%}" id="clear" class="action_button action_button_go" style="margin:10px 5px;">
+            {%trans "Clear"%}
+        </a>
+        <a href="{%url cart-checkout%}" id="pay" class="action_button action_button_go" style="margin:10px 0;">
+            {%trans "Pay"%}
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(function() {
+            $('#pay').click(function() {
+                alert('go to stripe!');
+            });
+        });
+    </script>
+{%endblock%}

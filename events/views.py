@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 
-from cart import Cart, ItemAlreadyExists, ItemDoesNotExist
+from cart import Cart as CartManager
 from models import *
 from forms import *
 
@@ -31,9 +31,36 @@ def event(request, event_id=None, secret_url=None, template='events/event.html')
         event = get_object_or_404(Event, pk=event_id)
     else:
         event = get_object_or_404(Event, secret_url=secret_url)
+    if request.method == 'POST':
+        ticket_quantity = request.POST.get('ticket_quantity')
+        if ticket_quantity:
+            ticket_quantity = ticket_quantity.split(',')
+            cart = CartManager(request)
+            for t_q in ticket_quantity:
+                t_q = t_q.split(':')
+                ticket = Ticket.objects.get(pk=t_q[0])
+                quantity = t_q[1]
+                cart.add(ticket, quantity)
+            return redirect('cart')
     context = {
         'event' : event
     }
+    return render_to_response(template, context,
+                              context_instance=RequestContext(request))
+    
+def cart(request, clear=False, template='events/cart.html'):
+    cart = CartManager(request)
+    if clear:
+        cart.clear()
+        return redirect('home')
+    context = {
+        'cart' : cart
+    }
+    return render_to_response(template, context,
+                              context_instance=RequestContext(request))
+    
+def cart_checkout(request, template='events/cart_checkout.html'):
+    context = {}
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
     

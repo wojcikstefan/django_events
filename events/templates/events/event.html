@@ -1,8 +1,91 @@
 {%extends 'events/base.html'%}
-{%load i18n%}
+{%load i18n events_tags%}
 
 {%block content%}
     <div class="event-detail">
-        {{event}}
+        <h1>{{event}}</h1>
+        <p class="info">
+            {{event.date_start|date:'l, F j, Y'}} at {{event.date_start|date:'g:i A'}}
+            -
+            {{event.date_end|date:'l, F j, Y'}} at {{event.date_end|date:'g:i A'}}
+        </p>
+        <p class="info">{{event.location}}</p>
+        {%if event.ticket_set.all.count%}
+            <h2 style="margin-top:20px;">{%trans "Available tickets"%}</h2>
+            <table class="tickets">
+                <thead>
+                    <tr>
+                        <th>{%trans "TICKET TYPE"%}</th>
+                        <th>{%trans "SALES START"%}</th>
+                        <th>{%trans "SALES END"%}</th>
+                        <th>{%trans "PRICE"%}</th>
+                        <th>{%trans "QUANTITY"%}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for ticket in event.ticket_set.all%}
+                        <tr>
+                            <td>
+                                {{ticket.name}}
+                                <p class="description">{{ticket.description}}</p>
+                            </td>
+                            <td>
+                                {%if ticket.sales_started%}
+                                    {%trans "Started"%}
+                                {%else%}
+                                    {{ticket.sales_start|time_left}}
+                                {%endif%}
+                            </td>
+                            <td>
+                                {%if ticket.sales_finished%}
+                                    {%trans "Finished"%}
+                                {%else%}
+                                    {%if ticket.sales_end%}
+                                        {{ticket.sales_end|time_left}}
+                                    {%else%}
+                                        {{event.date_end|time_left}}
+                                    {%endif%}
+                                {%endif%}
+                            </td>
+                            <td>{{ticket.price|floatformat:2}}</td>
+                            <td>
+                                {%if not ticket.sales_finished%}
+                                    <select class="ticket-select" id="{{ticket.id}}" name="ticket-{{ticket.id}}">
+                                        {%for opt in ticket.quantity_range%}
+                                            <option>{{opt}}</option>
+                                        {%endfor%}
+                                    </select>
+                                {%else%}
+                                    --------------
+                                {%endif%}
+                            </td>
+                        </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+            <form id="buy-tickets-form" action="#" method="POST">
+                {%csrf_token%}
+                <input type="hidden" name="ticket_quantity" id="id_ticket_quantity"/>
+            </form>
+            <a href="#" class="action_button action_button_go" style="margin:10px 0;">
+                {%trans "Get Tickets"%}
+            </a>
+        {%endif%}
+        <h2 style="margin:20px 0 10px;">{%trans "Event details"%}</h2>
+        <div>{{event.description|linebreaksbr}}</div>
     </div>
+    <script type="text/javascript">
+        $(function() {
+            $('.action_button').click(function() {
+                var ticket_quantity = new Array();
+                $('.ticket-select').each(function() {
+                    if($(this).val() != '0') {
+                        ticket_quantity.push($(this).attr('id')+':'+$(this).val());
+                    }
+                });
+                $('#id_ticket_quantity').val(ticket_quantity.toString());
+                $('#buy-tickets-form').submit();
+            });
+        });
+    </script>
 {%endblock%}
