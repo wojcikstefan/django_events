@@ -4,13 +4,15 @@ from django.utils.translation import ugettext_lazy as _
 
 class Event(models.Model):
     created_by = models.ForeignKey(User)
-    name = models.CharField(max_length=256)
-    date_start = models.DateTimeField()
-    date_end = models.DateTimeField()
-    sales_end = models.DateTimeField()
-    location = models.CharField(max_length=128) # preferrably changed to geo-location later
-    description = models.TextField()
-    private = models.BooleanField(default=False)
+    logo = models.ImageField(upload_to='event_logos', null=True, blank=True,
+                             verbose_name=_('Event logo'))
+    name = models.CharField(max_length=256, verbose_name=_('Event name'))
+    date_start = models.DateTimeField(verbose_name=_('Event start'))
+    date_end = models.DateTimeField(verbose_name=_('Event end'))
+    # preferrably changed to geo-location later
+    location = models.CharField(max_length=128, verbose_name=_('Event location')) 
+    description = models.TextField(verbose_name=_('Event details'))
+    private = models.BooleanField(default=False, verbose_name=_('Event is private'))
     
     class Meta:
         verbose_name = _('Event')
@@ -23,9 +25,11 @@ class Event(models.Model):
 class Ticket(models.Model):
     event = models.ForeignKey(Event)
     name = models.CharField(max_length=64)
-    description = models.TextField()
-    available_quantity = models.PositiveIntegerField(null=True, blank=True)
+    quantity = models.PositiveIntegerField(null=True, blank=True)
     price = models.FloatField()
+    sales_start = models.DateTimeField(null=True, blank=True)
+    sales_end = models.DateTimeField(null=True, blank=True)
+    description = models.TextField()
     
     class Meta:
         verbose_name = _('Ticket')

@@ -1057,10 +1057,30 @@ section > hgroup > h3,
 
 
 /*----------------------------  MY STUFF  -----------------------------------*/
+.errorlist {color:tomato;}
+
 .auth-form {padding:30px;}
 .auth-form label {display: block;min-width:100px;float:left;}
 .auth-form input {width:200px;}
 .auth-form input[type="submit"] {margin-top:20px;width:100px;}
 .auth-form .error {color:red;margin:10px 0 0;}
+.required {color:tomato;vertical-align:top;}
 
 .event-detail {padding:20px;}
+
+.event-form {padding:30px;float:left;min-height:450px;width:347px;}
+.event-form.ticket {width:512px;border-left:1px dotted #999;}
+.event-form .label {display:block;min-width:130px;float:left;}
+.event-form input {width:200px;}
+.event-form input[type="checkbox"] {width:auto;}
+.event-form input[type="submit"] {margin-top:20px;width:200px;}
+.event-form .error {color:red;margin:10px 0 0;}
+.event-form textarea {resize: none;}
+.event-form #add-ticket {margin-top:20px;width:200px;}
+
+.ticket-detail td {vertical-align:top;}
+.ticket-detail {width:100%;border-collapse:separate;border-spacing:20px 10px;}
+.ticket-detail .name-row input {width:100%;}
+.ticket-detail textarea {width:100%;height:40px;resize:none;}
+.ticket-detail .small-inputs input {width:100%;}
+.ticket-tab .delete-tick {float:right;cursor:pointer;}

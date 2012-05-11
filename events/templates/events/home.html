@@ -48,11 +48,15 @@
 
 {%block content%}
     <div id="event_discovery_listing">
-        <form id="home_search" action="/search/" method="get">
-            <input type="hidden" name="loc" value="Warsaw, Poland" />
-            <input type="hidden" name="q" value="" class="authentic" />
-
-            <input type="text" id="city_search" name="" autocomplete="off" placeholder="{%trans "Search for concerts, conferences, and more"%}" class="default_value" />
+        <form id="home_search" action="{%url search%}" method="GET">
+            <input type="text"
+                   id="id_search"
+                   class="default_value"
+                   name="search"
+                   autocomplete="off"
+                   placeholder="{%trans "Search for concerts, conferences, and more"%}"
+                   {%if query%}value="{{query}}"{%endif%}
+            />
             <input type="submit" id="search_button" value="{%trans "Search"%}" class="action_button action_button_go" />
         </form>
 

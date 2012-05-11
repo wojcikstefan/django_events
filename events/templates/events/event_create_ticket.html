@@ -1,0 +1,64 @@
+{%load i18n%}
+
+<div class="ticket-tab">
+    <img src="{{STATIC_URL}}images/icons/ex.png"
+         alt="{%trans "Delete"%}"
+         title="{%trans "Delete"%}"
+         id="{{ticket_number}}"
+         class="delete-tick"
+    />
+    <table class="ticket-detail">
+        <tr class="name-row">
+            <td>
+                {{ticket_form.name.label_tag}}
+            </td>
+            <td colspan="3">
+                {{ticket_form.name}}
+                {%if ticket_form.name.errors%}
+                    <br/>{{ticket_form.name.errors}}
+                {%endif%}
+            </td>
+        </tr>
+        <tr class="small-inputs">
+            <td>{{ticket_form.price.label_tag}}</td>
+            <td>
+                {{ticket_form.price}}
+                {%if ticket_form.price.errors%}
+                    <br/>{{ticket_form.price.errors}}
+                {%endif%}
+            </td>
+            <td>{{ticket_form.quantity.label_tag}}</td>
+            <td>
+                {{ticket_form.quantity}}
+                {%if ticket_form.quantity.errors%}
+                    <br/>{{ticket_form.quantity.errors}}
+                {%endif%}
+            </td>
+        </tr>
+        <tr class="small-inputs">
+            <td>{{ticket_form.sales_start.label_tag}}</td>
+            <td>
+                {{ticket_form.sales_start}}
+                {%if ticket_form.sales_start.errors%}
+                    <br/>{{ticket_form.sales_start.errors}}
+                {%endif%}
+            </td>
+            <td>{{ticket_form.sales_end.label_tag}}</td>
+            <td>
+                {{ticket_form.sales_end}}
+                {%if ticket_form.sales_end.errors%}
+                    <br/>{{ticket_form.sales_end.errors}}
+                {%endif%}
+            </td>
+        </tr>
+        <tr>
+            <td>{{ticket_form.description.label_tag}}</td>
+            <td colspan="3">
+                {{ticket_form.description}}
+                {%if ticket_form.description.errors%}
+                    <br/>{{ticket_form.description.errors}}
+                {%endif%}
+            </td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,28 @@
+[
+    {
+        "pk": 1,
+        "model": "events.event",
+        "fields": {
+            "description": "\"Ride the Rock\" is a free, family 16-mile group bike ride and festival hosted by the Forest Preserve District of Will County and presented by Provena Saint Joseph Medical Center, the event's title sponsor for 2012. \"Ride the Rock\" is returning for its sixth year on Saturday, May 12, from 9:00 a.m. to 3:00 p.m., at Rock Run Greenway - I&M Canal Access, in Joliet.\r\n\r\nThe event is open to all ages, but is recommended for individual riders of at least 11 years of age. In addition to bringing their own bikes, all riders are urged to wear safety helmets and to bring drinking water.\r\n\r\nPre-registered riders will be able to check in at 9:00 a.m. at the event. The first 1,000 pre-registered riders to check in will receive a free t-shirt. (Please note that size choice is not guaranteed.) Pre-registration will close at noon on Thursday, May 10.",
+            "date_end": "2012-05-12 15:00:00",
+            "date_start": "2012-05-12 09:00:00",
+            "created_by": 1,
+            "private": false,
+            "location": "1966 Empress Road, Joliet, IL",
+            "name": "Ride the Rock Presented by Provena Saint Joseph Medical Center"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "events.event",
+        "fields": {
+            "description": "Come celebrate MAKE magazine's 13th Maker Faire and seventh anniversary in the Bay Area, showcasing creative and resourceful people in the areas of science and technology, engineering, food, and arts and crafts.\r\n \r\nSaturday - May 19th, 2012 from 10am - 8pm\r\nSunday - May 20th, 2012 from 10am - 6pm \r\n\r\nFAQ\u2019S:\r\n\r\n- How do I get my tickets once I have purchased them online?\r\n\r\nTickets purchased on-line, will receive an email confirmation with a link to print your eTickets from your computer.\r\n- I did not receive an email confirmation when I ordered my tickets, what should I do?\r\n\r\nCheck your spam or gray mail folder, in case it was misdirected. If you are unable to find it, email tickets@makerfaire.com to have it resent. Please include the name and email address used to order the tickets.",
+            "date_end": "2012-05-20 18:00:00",
+            "date_start": "2012-05-19 10:00:00",
+            "created_by": 1,
+            "private": false,
+            "location": "1346 Saratoga Drive, San Mateo",
+            "name": "Maker Faire Bay Area 2012"
+        }
+    }
+]

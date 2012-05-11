@@ -33,11 +33,84 @@ def event(request, event_id, template='events/event.html'):
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
     
-def create_event(request, template='events/event_create.html'):
-    context = {}
+def search(request, template='events/home.html'):
+    query = request.GET.get('search')
+    events = Event.objects.all()
+    if query:
+        events = events.filter(name__icontains=query)
+    paginator = Paginator(events, 5)
+    page = request.REQUEST.get('page')
+    if page:
+        page = int(page)
+    try:
+        events = paginator.page(page)
+    except:
+        events = paginator.page(1)
+    context = {
+        'events' : events,
+        'query' : query
+    }
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
-# AUTH
+    
+    
+def create_event(request, template='events/event_create.html'):
+    saved = False
+    ticket_forms = []
+    ticket_prefixes = []
+    ticket_number = 0
+    if request.method == 'POST':
+        tickets_valid = True
+        ticket_prefixes = request.POST.get('ticket_prefixes')
+        if ticket_prefixes:
+            ticket_prefixes = ticket_prefixes.split(',')
+            # get the ticket prefix of the possible next ticket form
+            ticket_number = int(ticket_prefixes[-1]) + 1
+            for ticket_prefix in ticket_prefixes:
+                ticket_form = TicketForm(request.POST, prefix=ticket_prefix)
+                if not ticket_form.is_valid():
+                    tickets_valid = False
+                ticket_forms.append(ticket_form)
+        event_form = EventForm(request.POST, prefix='event')
+        if event_form.is_valid() and tickets_valid:
+            event = event_form.save(commit=False)
+            event.created_by = request.user
+            event.save()
+            for ticket_prefix in ticket_prefixes:
+                ticket_form = TicketForm(request.POST, prefix=ticket_prefix)
+                ticket = ticket_form.save(commit=False)
+                ticket.event = event
+                ticket.save()
+            saved = True
+        else:
+            print 'THERE ARE SOME ERRORS!'
+            print event_form.errors
+            for form in ticket_forms:
+                print form.errors
+    else:
+        event_form = EventForm(prefix='event')
+    context = {
+        'event_form' : event_form,
+        'ticket_forms' : ticket_forms,
+        'ticket_number' : ticket_number,
+        'ticket_prefixes' : ticket_prefixes,
+        'saved' : saved
+    }
+    return render_to_response(template, context,
+                              context_instance=RequestContext(request))
+    
+def create_ticket(request, template='events/event_create_ticket.html'):
+    ticket_number = request.GET.get('ticket_number')
+    #print 'TICKET NO: ', ticket_number
+    ticket_form = TicketForm(prefix=ticket_number)
+    context = {
+        'ticket_form' : ticket_form,
+        'ticket_number' : ticket_number
+    }
+    return render_to_response(template, context,
+                              context_instance=RequestContext(request))
+
+#------------------------------------ AUTH ------------------------------------
     
 def login_user(request, template='events/login.html'):
     incorrect_data = False

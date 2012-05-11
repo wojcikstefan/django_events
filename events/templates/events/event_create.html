@@ -2,5 +2,93 @@
 {%load i18n%}
 
 {%block content%}
-    CREATE EVENT!!!
+    {%if saved%}
+        {%trans "The event has been successfully created."%}
+        <a href="{%url home%}">{%trans "Get back to the homepage"%}</a>
+    {%else%}
+        <form id="event" action="{%url create-event%}" method="POST">
+            {%csrf_token%}
+            <div class="event-form">
+                <h2>{%trans "Event details"%}</h2>
+                {%for field in event_form%}
+                    <div style="margin-top:10px;">
+                        <div class="label">
+                            {{field.label_tag}}
+                            {%if field.field.required%}
+                                <span class="required">*</span>
+                            {%endif%}
+                        </div>
+                        {{field}}
+                        {%if field.errors%} <br/>{{field.errors}} {%endif%}
+                    </div>
+                {%endfor%}
+                {%if form.non_field_errors%}
+                    <div class="error">
+                        {{form.non_field_errors}}
+                    </div>
+                {%endif%}
+                <div style="text-align:center">
+                    <input type="submit" value="{%trans "Create"%}"/>
+                </div>
+            </div>
+        
+            <div class="event-form ticket">
+                <input type="hidden" name="ticket_number" id="id_ticket_number" value="{{ticket_number}}"/>
+                <input type="hidden" name="ticket_prefixes" id="id_ticket_prefixes" value=""/>
+                <h2>{%trans "Ticket details"%}</h2>
+                <div id="id_ticket_placeholder">
+                    {%for ticket_form in ticket_forms%}
+                        {%include 'events/event_create_ticket.html'%}
+                    {%endfor%}
+                </div>
+                <div style="text-align:center">
+                    <input type="button" id="add-ticket" value="{%trans "Add ticket"%}"/>
+                </div>
+            </div>
+        </form>
+        <script type="text/javascript">
+            $(function() {
+                var ticket_number = $('#id_ticket_number');
+                {%if ticket_prefixes%}
+                    var ticket_prefixes = new Array(
+                        {%for prefix in ticket_prefixes%}
+                            '{{prefix}}'{%if not forloop.last%},{%endif%}
+                        {%endfor%}
+                    );
+                {%else%}
+                    var ticket_prefixes = new Array();
+                {%endif%}
+                var ticket_placeholder = $('#id_ticket_placeholder');
+                $('#add-ticket').click(function() {
+                    $.ajax({
+                        url : '{%url create-ticket%}',
+                        data : {
+                            ticket_number : ticket_number.val()
+                        },
+                        success : function(response) {
+                            ticket_placeholder.append($(response));
+                            ticket_prefixes.push(ticket_number.val());
+                            ticket_number.val(parseInt(ticket_number.val())+1);
+                        },
+                        error : function() {
+                            alert('{%trans "An error occurred."%}');
+                        }
+                    })
+                });
+                
+                $('.delete-tick').live('click', function() {
+                    ticket_prefixes.splice(
+                        ticket_prefixes.indexOf($(this).attr('id')),
+                        1
+                    );
+                    $(this).parent().remove();
+                    //alert(ticket_prefixes);
+                });
+                
+                $('#event').submit(function() {
+                    $('#id_ticket_prefixes').val(ticket_prefixes.toString());
+                });
+            });
+        </script>
+    {%endif%}
 {%endblock%}
