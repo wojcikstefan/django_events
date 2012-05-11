@@ -36,6 +36,7 @@ class Event(models.Model):
 class Ticket(models.Model):
     event = models.ForeignKey(Event)
     name = models.CharField(max_length=64)
+    # if quantity is null, the number of available tickets is unlimited
     quantity = models.PositiveIntegerField(null=True, blank=True)
     price = models.FloatField()
     sales_start = models.DateTimeField(null=True, blank=True)
