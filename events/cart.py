@@ -83,3 +83,8 @@ class Cart:
     def clear(self):
         for order in self.cart.ticketorder_set.all():
             order.delete()
+            
+    def check_out(self):
+        self.cart.checked_out = True
+        self.cart.save()
+        

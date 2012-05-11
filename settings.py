@@ -18,4 +18,8 @@ DATABASES = {
     }
 }
 
+# Stripe test keys
+STRIPE_PUBLIC_KEY = 'pk_klRyAO6DqsgBoboM8qOyeH1mPzl3U'
+STRIPE_PRIVATE_KEY = 'QUI20VjqU5h8mNcfUP0nQVUAs80nFAUZ'
+
 from common_settings import *
