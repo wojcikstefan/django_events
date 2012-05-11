@@ -3,7 +3,7 @@
 
 {%block content%}
     <div class="auth-form" style="padding:30px;">
-        <form action="{%url login%}" method="POST">
+        <form action="#" method="POST">
             {%csrf_token%}
             {%for field in form%}
                 <div style="margin-top:10px;">

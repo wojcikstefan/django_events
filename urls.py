@@ -7,6 +7,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^events/', include('events.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^accounts/login/$', 'events.views.login_user', {}, 'login-redirect'),
 )
 
 urlpatterns += staticfiles_urlpatterns()

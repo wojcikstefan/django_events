@@ -2,8 +2,14 @@
 {%load i18n%}
 
 {%block content%}
-    {%if saved%}
+    {%if event%}
         {%trans "The event has been successfully created."%}
+        {%if event.private%}
+            {%trans "Your events is private. Its secret link is"%}:<br/>
+            <a href="{%url event-secret event.secret_url%}">
+                {{request.get_host}}{%url event-secret event.secret_url%}
+            </a>
+        {%endif%}<br/>
         <a href="{%url home%}">{%trans "Get back to the homepage"%}</a>
     {%else%}
         <form id="event" action="{%url create-event%}" method="POST">

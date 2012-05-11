@@ -4,7 +4,8 @@ from views import *
 
 urlpatterns = patterns('',
     url(r'^$', home, {}, 'home'),
-    url(r'^(?P<event_id>[0-9]+)', event, {}, 'event'),
+    url(r'^(?P<event_id>[0-9]+)/$', event, {}, 'event'),
+    url(r'^url/(?P<secret_url>\w+)/$', event, {}, 'event-secret'),
     url(r'^search/$', search, {}, 'search'),
     url(r'^create/$', create_event, {}, 'create-event'),
     url(r'^create/ticket/$', create_ticket, {}, 'create-ticket'),

@@ -30,7 +30,7 @@ class RegisterForm(forms.Form):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        exclude = ('created_by',)
+        exclude = ('created_by', 'secret_url')
         
 class TicketForm(forms.ModelForm):
     class Meta:

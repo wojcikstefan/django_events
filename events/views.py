@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
@@ -25,8 +26,11 @@ def home(request, template='events/home.html'):
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
     
-def event(request, event_id, template='events/event.html'):
-    event = get_object_or_404(Event, pk=event_id)
+def event(request, event_id=None, secret_url=None, template='events/event.html'):
+    if event_id:
+        event = get_object_or_404(Event, pk=event_id)
+    else:
+        event = get_object_or_404(Event, secret_url=secret_url)
     context = {
         'event' : event
     }
@@ -53,9 +57,9 @@ def search(request, template='events/home.html'):
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
     
-    
+@login_required
 def create_event(request, template='events/event_create.html'):
-    saved = False
+    event = None
     ticket_forms = []
     ticket_prefixes = []
     ticket_number = 0
@@ -81,7 +85,6 @@ def create_event(request, template='events/event_create.html'):
                 ticket = ticket_form.save(commit=False)
                 ticket.event = event
                 ticket.save()
-            saved = True
         else:
             print 'THERE ARE SOME ERRORS!'
             print event_form.errors
@@ -94,7 +97,7 @@ def create_event(request, template='events/event_create.html'):
         'ticket_forms' : ticket_forms,
         'ticket_number' : ticket_number,
         'ticket_prefixes' : ticket_prefixes,
-        'saved' : saved
+        'event' : event
     }
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
@@ -127,6 +130,8 @@ def login_user(request, template='events/login.html'):
                 if user is not None:
                     if user.is_active:
                         login(request,user)
+                        if request.GET.has_key('next'):
+                            return redirect(request.GET['next'])
                         return redirect('home')
             except User.DoesNotExist:
                 pass

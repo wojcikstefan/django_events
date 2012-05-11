@@ -1,9 +1,13 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.hashcompat import sha_constructor
 from django.utils.translation import ugettext_lazy as _
+
+
 
 class Event(models.Model):
     created_by = models.ForeignKey(User)
+    created_at = models.DateTimeField(auto_now_add=True)
     logo = models.ImageField(upload_to='event_logos', null=True, blank=True,
                              verbose_name=_('Event logo'))
     name = models.CharField(max_length=256, verbose_name=_('Event name'))
@@ -13,6 +17,7 @@ class Event(models.Model):
     location = models.CharField(max_length=128, verbose_name=_('Event location')) 
     description = models.TextField(verbose_name=_('Event details'))
     private = models.BooleanField(default=False, verbose_name=_('Event is private'))
+    secret_url = models.CharField(max_length=40, null=True, blank=True)
     
     class Meta:
         verbose_name = _('Event')
@@ -21,6 +26,12 @@ class Event(models.Model):
         
     def __unicode__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        if self.private:
+            key = self.created_by.email+str(self.created_at)+self.name
+            self.secret_url = sha_constructor(key).hexdigest()
+        super(Event, self).save(*args, **kwargs)
     
 class Ticket(models.Model):
     event = models.ForeignKey(Event)
