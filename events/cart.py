@@ -27,6 +27,8 @@ class Cart:
 
     def new(self, request):
         cart = models.Cart()
+        if request.user.is_authenticated():
+            cart.user = request.user
         cart.save()
         request.session[CART_ID] = cart.id
         return cart

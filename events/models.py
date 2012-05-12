@@ -93,6 +93,7 @@ class Ticket(models.Model):
             return self.event.date_end < datetime.datetime.now()
     
 class Cart(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True,
                                          verbose_name=_('Creation date'))
     checked_out = models.BooleanField(default=False,
