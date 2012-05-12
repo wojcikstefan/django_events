@@ -27,6 +27,13 @@
                         <tr>
                             <td>
                                 {{ticket.name}}
+                                {%with tickets_left=ticket.tickets_left%}
+                                    {%if tickets_left > 0 and tickets_left < 10%}
+                                    <span class="few-left">
+                                        {{ticket.tickets_left}} {%trans "left"%}
+                                    </span>
+                                    {%endif%}
+                                {%endwith%}
                                 <p class="description">{{ticket.description}}</p>
                             </td>
                             <td>

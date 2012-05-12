@@ -2,10 +2,10 @@
 {%load i18n%}
 
 {%block content%}
-    <div class="event-detail">
+    <div class="event-detail" style="width:599px;min-height:220px;float:left;border-right:1px dotted #ccc;">
         <h1>{%trans "CART"%}</h1>
         <h2 style="margin-top:20px;">{%trans "Order summary"%}</h2>
-        <table class="tickets">
+        <table class="tickets" style="width:100%;">
             <thead>
                 <tr>
                     <th>{%trans "TICKET TYPE"%}</th>
@@ -37,10 +37,19 @@
             </tfoot>
         </table>
         <a href="{%url cart-clear%}" id="clear" class="action_button action_button_go" style="margin:10px 5px;">
-            {%trans "Clear"%}
+            {%trans "Clear cart"%}
         </a>
-        <a href="{%url cart-checkout%}" id="pay" class="action_button action_button_go" style="margin:10px 0;">
-            {%trans "Pay"%}
-        </a>
+    </div>
+    <div class="checkout-form">
+        {%include 'events/cart_checkout_ajax.html'%}
+    </div>
+    <div class="ajax-loader">{%trans "Your payment is being processed"%}</div>
+    <div class="ajax-success">
+        {%trans "Your payment has been accepted. Thank you!"%}<br/><br/>
+        <a href="{%url home%}">{%trans "Go back home"%}</a>
+    </div>
+    <div class="ajax-failure">
+        {%trans "Sorry, your payment could not be processed."%}<br/><br/>
+        {%trans "Please try again later."%}
     </div>
 {%endblock%}

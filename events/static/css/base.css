@@ -327,12 +327,6 @@ article, aside, footer, header, hgroup, nav, section{
 }
 /* end sections */
 
-/* warnings */
-.required {
-    color: #ff4249;
-}
-/* end warnings */
-
 #footer {
     position: relative;
     z-index: 99; /* for the region selector menu */

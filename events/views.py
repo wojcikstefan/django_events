@@ -57,36 +57,35 @@ def cart(request, clear=False, template='events/cart.html'):
         cart.clear()
         return redirect('home')
     context = {
-        'cart' : cart
+        'cart' : cart,
+        'STRIPE_PUBLIC_KEY' : settings.STRIPE_PUBLIC_KEY
     }
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
     
 def cart_checkout(request, template='events/cart_checkout.html'):
-    context = {
-        'STRIPE_PUBLIC_KEY' : settings.STRIPE_PUBLIC_KEY
-    }
+    context = {}
     cart = CartManager(request)
     if request.method == 'POST':
-        success = False
-        # set your secret key: remember to change this to your live secret key in production
-        # see your keys here https://manage.stripe.com/account
-        stripe.api_key = settings.STRIPE_PRIVATE_KEY
-        # get the credit card details submitted by the form
-        token = request.POST['stripeToken']
-        # create the charge on Stripe's servers - this will charge the user's card
-        charge = stripe.Charge.create(
-            amount=int(cart.summary()*100), # amount in cents
-            currency="usd",
-            card=token,
-            description=request.user.email
-        )
-        if charge.get('paid'):
-            success = True
-            cart.check_out()
-        context['success'] = success
-    return render_to_response(template, context,
-                              context_instance=RequestContext(request))
+        try:
+            stripe.api_key = settings.STRIPE_PRIVATE_KEY
+            # get the credit card details submitted by the form
+            token = request.POST['stripeToken']
+            # create the charge on Stripe's servers - this will charge the user's card
+            charge = stripe.Charge.create(
+                amount=int(cart.summary()*100), # amount in cents
+                currency="usd",
+                card=token,
+                description=request.user.email
+            )
+            print charge
+            if charge.get('paid'):
+                cart.check_out()
+                return HttpResponse('TRUE')
+            return HttpResponse('FALSE')
+        except:
+            import traceback
+            traceback.print_exc()
     
 def search(request, template='events/home.html'):
     query = request.GET.get('search')

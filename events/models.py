@@ -58,6 +58,17 @@ class Ticket(models.Model):
         else:
             return range(0,self.quantity+1,1)
             
+    def tickets_left(self):
+        if not self.quantity:
+            return -1
+        else:
+            quantity = 0
+            # TODO Change to aggregate
+            checked_orders = TicketOrder.objects.filter(ticket=self, cart__checked_out=True)
+            for order in checked_orders:
+                quantity += order.quantity
+            return self.quantity - quantity
+            
     def sold_out(self):
         if self.quantity:
             quantity = 0
