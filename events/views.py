@@ -52,7 +52,8 @@ def event(request, event_id=None, secret_url=None, template='events/event.html')
     }
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
-    
+
+@login_required    
 def cart(request, clear=False, template='events/cart.html'):
     cart = CartManager(request)
     if clear:
@@ -64,7 +65,8 @@ def cart(request, clear=False, template='events/cart.html'):
     }
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
-    
+
+@login_required    
 def cart_checkout(request, template='events/cart_checkout.html'):
     context = {}
     cart = CartManager(request)
@@ -88,7 +90,7 @@ def cart_checkout(request, template='events/cart_checkout.html'):
                                                      ticket_order.ticket.name,
                                                      ticket_order.ticket.event.name)
                 send_mail(subject, message, 'noreply@django-events.com',
-                          [request.user.email])
+                          [request.user.email], fail_silently=True)
                 cart.check_out()
                 return HttpResponse('TRUE')
             return HttpResponse('FALSE')
@@ -160,7 +162,8 @@ def create_event(request, template='events/event_create.html'):
     }
     return render_to_response(template, context,
                               context_instance=RequestContext(request))
-    
+
+@login_required
 def create_ticket(request, template='events/event_create_ticket.html'):
     ticket_number = request.GET.get('ticket_number')
     #print 'TICKET NO: ', ticket_number

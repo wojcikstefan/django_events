@@ -14,15 +14,19 @@ class Command(BaseCommand):
     
     def handle(self, *args, **options):
         now = datetime.datetime.now()
-        week_future = now + datetime.timedelta(days=7)
+        future = now + datetime.timedelta(days=settings.REMINDER_DAYS)
         mail_list = []
-        # TODO optimize
-        soon_events = Event.objects.filter(date_start__range=(now,
-                                                              week_future))
+        # TODO optimize (some helper db table perhaps?)
+        soon_events = Event.objects.filter(date_start__range=(now, future))
         for event in soon_events:
             ticket_orders = TicketOrder.objects.filter(ticket__event=event)
             emails = ticket_orders.values_list('cart__user__email').distinct()
             emails = [e[0] for e in emails]
+            # remove duplicates
+            d = {}
+            for e in emails:
+                d[e] = 1
+            emails = list(d.keys())
             subject = _(u'[Django Events] Event coming soon')
             message = """
                 Hey, just wanted to let you know the event you bought the

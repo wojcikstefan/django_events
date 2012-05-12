@@ -2,7 +2,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('NAME SURNAME', 'email@address.com'),
+    # ('NAME SURNAME', 'email@address.com'),
 )
 
 MANAGERS = ADMINS
@@ -18,14 +18,16 @@ DATABASES = {
     }
 }
 
-SECRET_KEY = 'YOUR SECRET KEY'
+SECRET_KEY = 'YOUR DJANGO APP SECRET KEY'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'EMAIL BACKEND'
 EMAIL_HOST = 'EMAIL HOST'
 EMAIL_HOST_USER = 'EMAIL USERNAME'
 EMAIL_HOST_PASSWORD = 'EMAIL PASSWORD'
-EMAIL_PORT = 'EMAIL PORT (INTEGER)'
-EMAIL_USE_TLS = 'USE TLS? (TRUE/FALSE)'
+EMAIL_PORT = 0        # EMAIL PORT (INTEGER)
+EMAIL_USE_TLS = True  # USE TLS? (True/False)
+
+REMINDER_DAYS = 7
 
 # Stripe test keys (do not forget to switch them for the production keys later)
 STRIPE_PUBLIC_KEY = 'YOUR STRIPE PUBLIC KEY'
