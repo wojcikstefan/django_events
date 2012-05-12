@@ -3,11 +3,13 @@ import stripe
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
+from django.utils.translation import ugettext_lazy as _
 
 from cart import Cart as CartManager
 from models import *
@@ -78,8 +80,15 @@ def cart_checkout(request, template='events/cart_checkout.html'):
                 card=token,
                 description=request.user.email
             )
-            print charge
             if charge.get('paid'):
+                subject = _(u'[Django Events] Your purchase has been accepted.')
+                message = 'You bought:\n'
+                for ticket_order in cart:
+                    message += '%s * %s for %s\n' % (ticket_order.quantity,
+                                                     ticket_order.ticket.name,
+                                                     ticket_order.ticket.event.name)
+                send_mail(subject, message, 'noreply@django-events.com',
+                          [request.user.email])
                 cart.check_out()
                 return HttpResponse('TRUE')
             return HttpResponse('FALSE')
