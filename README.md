@@ -41,3 +41,5 @@ You can send the reminder e-mails by typing:
 
 This will identify all the events that happen within REMINDER_DAYS (7 by default)
 days and will notify all the users that bought the tickets for those events.
+
+For periodical sending of reminders, run the aforementioned command with CRON scheduler.
